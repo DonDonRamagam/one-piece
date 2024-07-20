@@ -9,6 +9,7 @@ namespace SpriteKind {
     export const boss1 = SpriteKind.create()
     export const picture = SpriteKind.create()
     export const controller = SpriteKind.create()
+    export const boat = SpriteKind.create()
 }
 namespace StatusBarKind {
     export const boss1health = StatusBarKind.create()
@@ -36,7 +37,6 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, l
     tiles.placeOnRandomTile(applebarrel, assets.tile`myTile8`)
     game.showLongText("Find the barrels with apples in them.", DialogLayout.Bottom)
     tiles.placeOnRandomTile(mySprite, assets.tile`myTile10`)
-    tiles.placeOnRandomTile(mySprite, assets.tile`myTile11`)
     tiles.placeOnRandomTile(mySprite, assets.tile`myTile7`)
     tiles.placeOnRandomTile(mySprite, assets.tile`myTile9`)
 })
@@ -44,11 +44,27 @@ statusbars.onZero(StatusBarKind.boss1health, function (status) {
     sprites.destroy(Alvida, effects.fire, 500)
     pause(1000)
     game.showLongText("BOSS COMPLETED", DialogLayout.Bottom)
-    tiles.setCurrentTilemap(tilemap`level0`)
-    game.showLongText("LEVEL COMPLETE!", DialogLayout.Top)
-    game.showLongText("DEMO COMPLETE!", DialogLayout.Bottom)
-    tiles.setCurrentTilemap(tilemap`level10`)
-    game.reset()
+    tiles.setCurrentTilemap(tilemap`level12`)
+    mySprite18 = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        e . . . . . . . . . . . . . . e 
+        e e . . . . . f f . . . . . e e 
+        e e e e e e e f f e e e e e e e 
+        e e e e e e e f f e e e e e e e 
+        e e e e e e e f f e e e e e e e 
+        . e e e e e e f f e e e e e e . 
+        `, SpriteKind.boat)
+    tiles.placeOnRandomTile(mySprite18, assets.tile`myTile32`)
+    mySprite.follow(mySprite18, 100)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (player1 == true) {
@@ -163,6 +179,16 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.boss1, function (sprite, otherSp
         info.changeLifeBy(-1)
     }
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.boat, function (sprite, otherSprite) {
+    mySprite18.vx = -10
+    pause(1000)
+    sprites.destroy(mySprite)
+    sprites.destroy(Koby)
+    sprites.destroy(mySprite18)
+    game.showLongText("LEVEL COMPLETE!", DialogLayout.Top)
+    game.showLongText("DEMO COMPLETE!", DialogLayout.Bottom)
+    game.reset()
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.barreelll, function (sprite, otherSprite) {
     game.showLongText("You found fruits!", DialogLayout.Bottom)
     sprites.destroy(applebarrel)
@@ -187,10 +213,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.barreelll, function (sprite, oth
     controller.moveSprite(mySprite, 100, 100)
     sprites.destroy(Alvida)
     tiles.placeOnRandomTile(mySprite, assets.tile`myTile29`)
+    tiles.placeOnRandomTile(Koby, assets.tile`myTile29`)
     tiles.placeOnRandomTile(mySprite, assets.tile`myTile29`)
     tiles.placeOnRandomTile(mySprite, assets.tile`myTile29`)
-    tiles.placeOnRandomTile(mySprite, assets.tile`myTile29`)
-    sprites.destroy(Koby)
     mySprite5 = sprites.create(assets.image`myImage12`, SpriteKind.Enemy)
     mySprite6 = sprites.create(assets.image`myImage13`, SpriteKind.Enemy)
     mySprite7 = sprites.create(assets.image`myImage14`, SpriteKind.Enemy)
@@ -411,6 +436,7 @@ let attack4 = false
 let projectile3: Sprite = null
 let attacks2 = false
 let attack1 = false
+let mySprite18: Sprite = null
 let Alvida: Sprite = null
 let mySprite: Sprite = null
 let applebarrel: Sprite = null
