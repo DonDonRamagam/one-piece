@@ -621,6 +621,7 @@ mySprite11 = sprites.create(img`
     . . . . . . . f 1 1 f . . . . . 
     . . . . . . . . f f . . . . . . 
     `, SpriteKind.controller)
+mySprite11.setStayInScreen(true)
 tiles.placeOnRandomTile(mySprite16, assets.tile`myTile33`)
 tiles.placeOnRandomTile(mySprite2, assets.tile`myTile38`)
 tiles.placeOnRandomTile(mySprite10, assets.tile`myTile40`)
